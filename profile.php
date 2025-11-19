@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newsletter'])){
   if ($subscribe && !$exists){
     // Subscribe
     $pdo->prepare('INSERT INTO newsletter_subscribers (user_id, email) VALUES (?,?)')->execute([$user['id'], $user['email']]);
-    $success = 'Sėkmingai užsiprenumeravote naujienlaiškį!';
+    $success = 'Sėkmingai užsiprenumeravote naujienlaiškiui!';
   } elseif (!$subscribe && $exists){
     // Unsubscribe
     $pdo->prepare('DELETE FROM newsletter_subscribers WHERE user_id = ?')->execute([$user['id']]);
@@ -111,11 +111,11 @@ include 'header.php';
         <td><?php echo number_format($r['payment_amount'], 2); ?> €</td>
         <td>
           <?php if($r['status'] === 'confirmed'): ?>
-            <span class="badge bg-success">Confirmed</span>
+            <span class="badge bg-success">Patvirtinta</span>
           <?php elseif($r['status'] === 'cancelled'): ?>
-            <span class="badge bg-secondary">Cancelled</span>
+            <span class="badge bg-secondary">Atšaukta</span>
           <?php else: ?>
-            <span class="badge bg-warning text-dark">Pending</span>
+            <span class="badge bg-warning text-dark">Laukia patvirtinimo</span>
           <?php endif; ?>
         </td>
       </tr>
