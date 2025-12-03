@@ -1,82 +1,37 @@
--- Schema for Viešbučių tinklas
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(100) NOT NULL,
-  `email` VARCHAR(150) NOT NULL UNIQUE,
-  `password` VARCHAR(255) NOT NULL,
-  `role` ENUM('admin','employee','client') NOT NULL DEFAULT 'client',
-  `reservation_count` INT NOT NULL DEFAULT 0,
-  `total_spent` DECIMAL(10,2) NOT NULL DEFAULT 0.00
-);
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               8.4.3 - MySQL Community Server - GPL
+-- Server OS:                    Win64
+-- HeidiSQL Version:             12.8.0.6908
+-- --------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `hotels` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(150) NOT NULL,
-  `city` VARCHAR(100) NOT NULL,
-  `rating` DECIMAL(2,1) NOT NULL DEFAULT 0.0
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE TABLE IF NOT EXISTS `rooms` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `hotel_id` INT NOT NULL,
-  `places` INT NOT NULL,
-  `price` DECIMAL(10,2) NOT NULL,
-  `photo` VARCHAR(255) DEFAULT NULL,
-  `status` ENUM('available','maintenance') NOT NULL DEFAULT 'available',
-  FOREIGN KEY (`hotel_id`) REFERENCES `hotels`(`id`) ON DELETE CASCADE
-);
+-- Data exporting was unselected.
 
-CREATE TABLE IF NOT EXISTS `reservations` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `user_id` INT NOT NULL,
-  `room_id` INT NOT NULL,
-  `start_date` DATE NOT NULL,
-  `end_date` DATE NOT NULL,
-  `status` ENUM('pending','confirmed','cancelled') NOT NULL DEFAULT 'pending',
-  `total_price` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-  `deposit_amount` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-  `payment_amount` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-  `discount_code_id` INT DEFAULT NULL,
-  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`room_id`) REFERENCES `rooms`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`discount_code_id`) REFERENCES `discount_codes`(`id`) ON DELETE SET NULL
-);
+-- Data exporting was unselected.
 
-CREATE TABLE IF NOT EXISTS `newsletter_subscribers` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `user_id` INT DEFAULT NULL,
-  `email` VARCHAR(150) NOT NULL,
-  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL
-);
+-- Data exporting was unselected.
 
-CREATE TABLE IF NOT EXISTS `loyalty_tiers` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `min_amount` DECIMAL(10,2) NOT NULL,
-  `discount_percent` INT NOT NULL
-);
+-- Data exporting was unselected.
 
-CREATE TABLE IF NOT EXISTS `discount_codes` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `code` VARCHAR(50) NOT NULL UNIQUE,
-  `discount_percent` INT NOT NULL,
-  `created_by` INT NOT NULL,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `expires_at` DATE DEFAULT NULL,
-  `usage_limit` INT DEFAULT NULL,
-  `times_used` INT NOT NULL DEFAULT 0,
-  `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
-  FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE CASCADE
-);
+-- Data exporting was unselected.
 
--- Sample loyalty tiers (automatic discounts based on spending)
-INSERT INTO `loyalty_tiers` (`min_amount`,`discount_percent`) VALUES
-(1500.00,10),(1000.00,5),(500.00,3);
+-- Data exporting was unselected.
 
--- Update existing reservations to calculate total_price and deposit_amount if needed
--- This is useful when migrating from older schema versions
-UPDATE reservations r
-JOIN rooms rm ON r.room_id = rm.id
-SET 
-  r.total_price = rm.price * DATEDIFF(r.end_date, r.start_date),
-  r.deposit_amount = rm.price * DATEDIFF(r.end_date, r.start_date) * 0.20
-WHERE r.total_price = 0 OR r.deposit_amount = 0;
+-- Data exporting was unselected.
+
+-- Data exporting was unselected.
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

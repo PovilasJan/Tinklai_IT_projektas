@@ -24,6 +24,7 @@ require_once __DIR__ . '/functions.php';
           <li class="nav-item"><a class="nav-link" href="<?php echo (BASE_PATH !== '' ? rtrim(BASE_PATH,'/') . '/profile.php' : '/profile.php'); ?>"><?php echo htmlspecialchars($_SESSION['user']['name']); ?> Profilis</a></li>
           <?php if(hasRole('admin') || hasRole('employee')): ?>
             <li class="nav-item"><a class="nav-link" href="<?php echo (BASE_PATH !== '' ? rtrim(BASE_PATH,'/') . '/admin/reservations.php' : '/admin/reservations.php'); ?>">Rezervacijos</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?php echo (BASE_PATH !== '' ? rtrim(BASE_PATH,'/') . '/admin/calendar.php' : '/admin/calendar.php'); ?>">Kalendorius</a></li>
             <li class="nav-item"><a class="nav-link" href="<?php echo (BASE_PATH !== '' ? rtrim(BASE_PATH,'/') . '/admin/discounts.php' : '/admin/discounts.php'); ?>">Nuolaidos</a></li>
             <li class="nav-item"><a class="nav-link" href="<?php echo (BASE_PATH !== '' ? rtrim(BASE_PATH,'/') . '/admin/newsletter.php' : '/admin/newsletter.php'); ?>">Naujienlaiškis</a></li>
           <?php endif; ?>
