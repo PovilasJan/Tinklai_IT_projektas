@@ -59,13 +59,6 @@ endif; ?>
   if (!$primary_photo) {
       $primary_photo = 'https://via.placeholder.com/300x200?text=No+Image';
   }
-  
-  // Fetch hotel review statistics
-  $reviewStatsStmt = $pdo->prepare("SELECT AVG(rating) as avg_rating, COUNT(*) as review_count FROM hotel_reviews WHERE hotel_id = ?");
-  $reviewStatsStmt->execute([$r['hotel_id']]);
-  $reviewStats = $reviewStatsStmt->fetch();
-  $avgRating = $reviewStats['avg_rating'] ? round($reviewStats['avg_rating'], 1) : 0;
-  $reviewCount = (int)$reviewStats['review_count'];
 ?>
   <div class="col-md-6 mb-3">
     <div class="card">
@@ -74,25 +67,7 @@ endif; ?>
         <div class="col-8">
           <div class="card-body">
             <h5 class="card-title"><?php echo htmlspecialchars($r['hotel_name']); ?> (<?php echo htmlspecialchars($r['city']); ?>)</h5>
-            <p>Kaina: <?php echo $r['price']; ?> € • Vietų: <?php echo $r['places']; ?> • Įvertinimas: <?php echo $r['rating']; ?></p>
-            <?php if ($reviewCount > 0): ?>
-            <div class="mb-2">
-              <span class="text-warning">
-                <?php 
-                for ($i = 1; $i <= 5; $i++) {
-                    if ($i <= floor($avgRating)) {
-                        echo '★';
-                    } elseif ($i - 0.5 <= $avgRating) {
-                        echo '⯨';
-                    } else {
-                        echo '☆';
-                    }
-                }
-                ?>
-              </span>
-              <small><?php echo $avgRating; ?> (<?php echo $reviewCount; ?> <?php echo $reviewCount == 1 ? 'įvertinimas' : 'įvertinimai'; ?>)</small>
-            </div>
-            <?php endif; ?>
+            <p>Kaina: <?php echo $r['price']; ?> € • Vietų: <?php echo $r['places']; ?></p>
             <a href="reserve.php?room_id=<?php echo $r['id']; ?>&start_date=<?php echo urlencode($start); ?>&end_date=<?php echo urlencode($end); ?>" class="btn btn-primary">Rezervuoti</a>
           </div>
         </div>
